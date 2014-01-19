@@ -25,8 +25,9 @@ exports.list = function (req, res) {
   var gh_client  = require("../lib/GhClient")(auth_token);
 //  var gh_client = new GhClient();
   var pull_requests;
-  gh_client.get("/repos/" + owner +
-                "/" + repo_name + "/pulls", function (err, request, response, pull_requests) {
+  var pull_uri = "/repos/" + owner + "/" + repo_name + "/pulls";
+  console.log("PULL URI: ", pull_uri);
+  gh_client.get(pull_uri, function (err, request, response, pull_requests) {
 
     console.log(JSON.stringify(pull_requests, null, 2));
     res.render(

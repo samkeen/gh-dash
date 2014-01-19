@@ -14,20 +14,19 @@ var config = require("./config");
 
 var app = express();
 
+var swig = require("swig");
+
 // all environments
 app.configure(function () {
   app.set("port", process.env.PORT || 3000);
   app.set("views", path.join(__dirname, "views"));
   app.set("config", config);
-  /**
-   * Using hogan-express to enable partials functionality
-   * @see https://github.com/vol4ok/hogan-express#usage
-   */
-  app.set("view engine", "html");   // # use .html extension for templates
-  app.set("layout", "layout");      // # use layout.html as the default layout
-  app.set("partials", {navbar: "navbar"});  // # define partials available to all pages
-  //app.enable("view cache");
-  app.engine("html", require("hogan-express"));
+
+  app.engine("html", swig.renderFile);
+  app.set("view engine", "html");
+  app.set("views", __dirname + "/views");
+  // use Express cache instead of Swig's
+  swig.setDefaults({ cache: false });
   app.use(express.logger("dev"));// Output development-friendly colored logs
   app.use(express.favicon()); // Serve default favicon
   app.use(express.methodOverride());
@@ -42,11 +41,14 @@ app.configure(function () {
 
 // development only
 app.configure("development", function () {
+  // turn off view caches in dev
+  app.set("view cache", false);
   app.use(express.errorHandler());
 });
 
 // Production only
 app.configure("production", function () {
+  app.set("view cache", true);
   app.use(express.errorHandler({dumpExceptions: true}));
 });
 

@@ -8,7 +8,7 @@
     <meta name="author" content="" />
     <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png" />
 
-    <title>{{ settings.site_name }} :: {{ title }}</title>
+    <title>{% block title %}{{ settings.site_name }} :: {{ title }}{% endblock %}</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/bootstrap/css/bootstrap.css" rel="stylesheet" />
@@ -16,9 +16,16 @@
     <!-- Custom styles for this template -->
     <!--<link href="navbar.css" rel="stylesheet" />-->
 
-    {{! Allow templates to add js and css.  @see https://github.com/vol4ok/hogan-express#custom-yield-tags }}
-    {{{yield-styles}}}
-    {{{yield-scripts}}}
+    {#
+      Allow templates to add js and css
+      e.g.
+        {% block style-head %}
+        {% parent %}
+        <link rel="stylesheet" href="custom.css">
+        {% endblock %}
+    #}
+    {% block style-head %}{% endblock %}
+    {% block js-head %}{% endblock %}
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -31,9 +38,9 @@
 
 <div class="container">
 
-    {{> navbar }}
+    {% include "./navbar.html" %}
 
-    {{{ yield }}}
+    {% block content %}{% endblock %}
 
 </div> <!-- /container -->
 
