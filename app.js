@@ -6,6 +6,7 @@ var express = require("express");
 var routes = require("./routes");
 var token = require("./routes/token");
 var user = require("./routes/user");
+var repos = require("./routes/repos");
 var pull_request = require("./routes/pull_request");
 var http = require("http");
 var path = require("path");
@@ -55,6 +56,7 @@ app.configure("production", function () {
 app.get("/", routes.index);
 app.get("/token", token.access_token);
 app.get("/users", user.list);
+app.get("/repos", repos.list);
 app.get("/pull_request/:repo", pull_request.list);
 
 http.createServer(app).listen(app.get("port"), function () {

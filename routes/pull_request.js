@@ -34,11 +34,11 @@ exports.list = function (req, res) {
       // GET /repos/:owner/:repo/pulls
       "pull_request/list",
       {
-        title: "Get an Access Token",
+        title: "Pull Requests for " + repo_name,
+        repo_name: repo_name,
         pull_requests: pull_requests
       }
     );
   });
-  console.log("pull_requests: ", pull_requests);
 
 };

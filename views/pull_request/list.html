@@ -2,9 +2,20 @@
 {% block content %}
 <!-- Main component for a primary marketing message or call to action -->
 <div class="jumbotron">
-    <h1>Navbar example</h1>
-    {% for pull_request in pull_requests %}
-      <b>{{  pull_request.url }}</b>
-    {% endfor %}
+    <h1>Pull Requests</h1>
+    <h2>Repo: {{ repo_name }}</h2>
+    <dl>
+        {% if pull_requests.length > 0 %}
+            {% for pull_request in pull_requests %}
+                <dt>Pull #{{ pull_request.number }} : <a href="{{  pull_request._links.html.href }}">{{  pull_request.title }}</a></dt>
+                <dd><a href="{{  pull_request.diff_url }}">Diff</a></dd>
+                <dd><a href="{{  pull_request.patch_url }}">Patch</a></dd>
+                <dd><a href="{{  pull_request.issue_url }}">Issue</a></dd>
+            {% endfor %}
+        {% else %}
+            No Pull Requests for this repo
+        {% endif %}
+    </dl>
+
 </div>
 {% endblock %}
